@@ -16,9 +16,9 @@ class EmployeesController extends Controller
     public function index()
     {
         $employee =  DB::table('employees')
-            ->select('employees.*', 'salaries.salary')
-            ->leftjoin('titles', 'titles.emp_no', '=', 'employees.emp_no')
+            ->select('employees.*', 'salaries.salary as salary', 'titles.title as title')
             ->leftjoin('salaries', 'salaries.emp_no', '=', 'employees.emp_no')
+            ->leftjoin('titles', 'titles.emp_no', '=', 'employees.emp_no')
             ->orderBy('employees.id', 'asc')
             ->paginate(20);
 
@@ -32,7 +32,8 @@ class EmployeesController extends Controller
      */
     public function create()
     {
-        return view('employeeadd');
+        $employee = employees::all();
+        return view('employeeadd', compact('employee'));
     }
 
     /**
@@ -61,6 +62,7 @@ class EmployeesController extends Controller
         $employee->hire_date = $request->input('hire_date');
 
         $employee->save();
+        return redirect('/employee')->with('success', 'Employee successfully Added!!');
     }
 
     /**
@@ -71,9 +73,15 @@ class EmployeesController extends Controller
      */
     public function show($id)
     {
-        $employee = employees::find($id);
+        $employee = DB::table('employees')
+            ->select('employees.id', 'salaries.salary as salary', 'titles.title as title')
+            ->leftjoin('salaries', 'salaries.emp_no', '=', 'employees.emp_no')
+            ->leftjoin('titles', 'titles.emp_no', '=', 'employees.emp_no')
+            ->where('employees.id', '=', $id)
+            ->get();
 
-        return view('employeeview', compact('employee'));
+        return view('employeeview')
+            ->with('employee', $employee);
     }
 
     /**
@@ -84,10 +92,14 @@ class EmployeesController extends Controller
      */
     public function edit($id)
     {
-        $employee = employees::find($id);
-        return ($employee);
+        $employee = DB::table('employees')
+            ->select('employees.id', 'salaries.salary as salary', 'titles.title as title')
+            ->leftjoin('salaries', 'salaries.emp_no', '=', 'employees.emp_no')
+            ->leftjoin('titles', 'titles.emp_no', '=', 'employees.emp_no')
+            ->where('employees.id', '=', $id)
+            ->get();
 
-        // return view('employeeedit')->with('employee', $employee);
+        return view('employeeedit')->with('employee', $employee);
 
     }
 
@@ -118,6 +130,7 @@ class EmployeesController extends Controller
         $employee->hire_date = $request->input('hire_date');
 
         $employee->save();
+        return redirect('/employee-edit')->with('success', 'Employee successfully Edited!!');
     }
 
     /**

@@ -18,7 +18,8 @@
 </head>
 
 <body>
-  <h5 style="margin-left: 50px; margin-top: 50px;">Employee View</h5>
+  <h5 style="margin-left: 50px; margin-top: 50px;">Employee Profile</h5>
+  <a href="employee-edit/{id}" class="edit" title="Edit" data-toggle="tooltip">Edit</a>
   <div class="content">
     <form style="margin-left: 50px; margin-top: 50px;" method="get" action="/employee-view/{id}">
     {{csrf_field()}}

@@ -201,7 +201,6 @@
                         <td>{{$row->hire_date}}</td>
                         <td>
                             <a href="employee-view/{id}" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                            <a href="employee-edit/{id}" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
                             <a href="employee-delete/{id}" id="{{$row->id}}" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
                         </td>
                     </tr>
